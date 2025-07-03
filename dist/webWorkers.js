@@ -6,6 +6,13 @@
 export function useWorker(workerUrl) {
     let worker = new Worker(workerUrl, { type: "module" });
     let isActive = true;
+    // 终止Worker
+    const terminate = () => {
+        if (worker) {
+            worker.terminate();
+        }
+        isActive = false;
+    };
     // 执行任务并返回 Promise
     const execute = (params) => {
         if (!isActive) {
@@ -15,13 +22,13 @@ export function useWorker(workerUrl) {
         return new Promise((resolve, reject) => {
             // 成功回调
             const onMessage = (event) => {
-                cleanup();
                 if (event.data.error) {
                     reject(new Error(event.data.error));
                 }
                 else {
                     resolve(event.data);
                 }
+                cleanup();
             };
             // 错误回调
             const onError = (error) => {
@@ -32,6 +39,7 @@ export function useWorker(workerUrl) {
             const cleanup = () => {
                 worker.removeEventListener("message", onMessage);
                 worker.removeEventListener("error", onError);
+                terminate();
             };
             // 添加监听器
             worker.addEventListener("message", onMessage);
@@ -43,9 +51,6 @@ export function useWorker(workerUrl) {
     return {
         execute,
         isActive,
-        terminate: () => {
-            worker.terminate();
-            isActive = false;
-        },
+        terminate: terminate,
     };
 }
