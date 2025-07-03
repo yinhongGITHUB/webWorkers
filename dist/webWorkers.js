@@ -23,13 +23,18 @@ export function useWorker(workerUrl) {
         return new Promise((resolve, reject) => {
             // 成功回调
             const onMessage = (event) => {
-                if (event.data.error) {
-                    reject(new Error(event.data.error));
+                try {
+                    if (event.data.error) {
+                        reject(new Error(event.data.error));
+                    }
+                    else {
+                        resolve(event.data);
+                    }
+                    cleanup();
                 }
-                else {
-                    resolve(event.data);
+                finally {
+                    cleanup();
                 }
-                cleanup();
             };
             // 错误回调
             const onError = (error) => {
