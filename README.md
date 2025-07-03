@@ -1,4 +1,4 @@
-## 自封在webWorkers hook
+## 自封装webWorkers hook
 
 Web Workers 是浏览器提供的一种机制，允许你在主线程之外执行 JavaScript 代码，从而避免阻塞用户界面（如滚动、点击等交互）
 JavaScript 是单线程的，长时间运行的计算会阻塞主线程，导致页面卡顿。Web Workers 允许将计算任务移至后台线程
