@@ -1,0 +1,12 @@
+{
+  "name": "web-workers",
+  "version": "1.0.0",
+  "scripts": {
+    "tsc:watch": "tsc --watch",
+    "serve": "npx http-server -c-1 -p 8080",
+    "start": "start http://localhost:8080 && npm run serve"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
