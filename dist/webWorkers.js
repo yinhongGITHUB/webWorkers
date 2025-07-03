@@ -11,9 +11,6 @@ export function useWorker(workerUrl) {
         if (!isActive) {
             return Promise.reject(new Error("Worker已经被终止或不可用"));
         }
-        if (worker) {
-            worker.terminate();
-        }
         worker = new Worker(workerUrl, { type: "module" });
         return new Promise((resolve, reject) => {
             // 成功回调
