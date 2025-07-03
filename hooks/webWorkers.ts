@@ -45,16 +45,16 @@ export function useWorker(workerUrl: any) {
 
       // 清理监听器
       const cleanup = () => {
-        worker.removeEventListener("message", onMessage);
-        worker.removeEventListener("error", onError);
+        worker?.removeEventListener("message", onMessage);
+        worker?.removeEventListener("error", onError);
         terminate();
       };
 
       // 添加监听器
-      worker.addEventListener("message", onMessage);
-      worker.addEventListener("error", onError);
+      worker?.addEventListener("message", onMessage);
+      worker?.addEventListener("error", onError);
       // 发送任务
-      worker.postMessage(params);
+      worker?.postMessage(params);
     });
   };
 
