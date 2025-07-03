@@ -20,7 +20,7 @@ export function useWorker(workerUrl) {
                     reject(new Error(event.data.error));
                 }
                 else {
-                    setTimeout(() => { resolve(event.data); });
+                    resolve(event.data);
                 }
             };
             // 错误回调
