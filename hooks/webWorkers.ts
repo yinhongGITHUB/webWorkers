@@ -5,7 +5,7 @@
  */
 
 export function useWorker(workerUrl: any) {
-  let worker = new Worker(workerUrl, { type: "module" });
+  let worker: Worker | null = new Worker(workerUrl, { type: "module" });
   let isActive = true;
 
   // 终止Worker
@@ -13,6 +13,7 @@ export function useWorker(workerUrl: any) {
     if (worker) {
       worker.terminate();
     }
+    worker = null;
     isActive = false;
   };
 

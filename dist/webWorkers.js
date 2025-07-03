@@ -11,6 +11,7 @@ export function useWorker(workerUrl) {
         if (worker) {
             worker.terminate();
         }
+        worker = null;
         isActive = false;
     };
     // 执行任务并返回 Promise
