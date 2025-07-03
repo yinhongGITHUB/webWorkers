@@ -4,24 +4,27 @@
  * @returns
  */
 export function useWorker(workerUrl) {
-    const worker = new Worker(workerUrl, { type: 'module' });
+    let worker = new Worker(workerUrl, { type: "module" });
     let isActive = true;
     // 执行任务并返回 Promise
     const execute = (params) => {
         if (!isActive) {
-            return Promise.reject(new Error('Worker已经被终止或不可用'));
+            return Promise.reject(new Error("Worker已经被终止或不可用"));
         }
+        if (worker) {
+            worker.terminate();
+        }
+        worker = new Worker(workerUrl, { type: "module" });
         return new Promise((resolve, reject) => {
             // 成功回调
             const onMessage = (event) => {
-                console.log('event.data', event.data);
+                cleanup();
                 if (event.data.error) {
                     reject(new Error(event.data.error));
                 }
                 else {
-                    resolve(event.data);
+                    setTimeout(() => { resolve(event.data); });
                 }
-                cleanup();
             };
             // 错误回调
             const onError = (error) => {
@@ -30,12 +33,12 @@ export function useWorker(workerUrl) {
             };
             // 清理监听器
             const cleanup = () => {
-                worker.removeEventListener('message', onMessage);
-                worker.removeEventListener('error', onError);
+                worker.removeEventListener("message", onMessage);
+                worker.removeEventListener("error", onError);
             };
             // 添加监听器
-            worker.addEventListener('message', onMessage);
-            worker.addEventListener('error', onError);
+            worker.addEventListener("message", onMessage);
+            worker.addEventListener("error", onError);
             // 发送任务
             worker.postMessage(params);
         });
@@ -46,6 +49,6 @@ export function useWorker(workerUrl) {
         terminate: () => {
             worker.terminate();
             isActive = false;
-        }
+        },
     };
 }
