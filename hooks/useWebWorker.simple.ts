@@ -1,10 +1,10 @@
 /**
- *
+ * webWorker简单版
  * @param workerUrl Worker的URL或路径 例如：new URL('./test.js', import.meta.url)
  * @returns
  */
 
-export function useWorker(workerUrl: any) {
+export function useWebWorker(workerUrl: any) {
   let worker: Worker | null = new Worker(workerUrl, { type: "module" });
   let isActive = true;
 
@@ -23,21 +23,17 @@ export function useWorker(workerUrl: any) {
       return Promise.reject(new Error("Worker已经被终止或不可用"));
     }
 
-    worker = new Worker(workerUrl, { type: "module" });
-
     return new Promise((resolve, reject) => {
       // 成功回调
       const onMessage = (event: MessageEvent) => {
-        try {
-          if (event.data.error) {
-            reject(new Error(event.data.error));
-          } else {
-            resolve(event.data);
-          }
-          cleanup();
-        } finally {
-          cleanup();
+         console.log('worker onMessage', event.data.data);
+         
+        if (event.data.error) {
+          reject(new Error(event.data.error));
+        } else {
+          resolve(event.data);
         }
+       cleanup();
       };
 
       // 错误回调
@@ -50,9 +46,9 @@ export function useWorker(workerUrl: any) {
       const cleanup = () => {
         worker?.removeEventListener("message", onMessage);
         worker?.removeEventListener("error", onError);
-        terminate();
       };
-
+      // 确保在执行任务前清理旧的监听器
+      cleanup(); 
       // 添加监听器
       worker?.addEventListener("message", onMessage);
       worker?.addEventListener("error", onError);

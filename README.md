@@ -21,3 +21,7 @@ npm run tsc:watch
 #### 运行
 
 npm run start
+
+#### 常见问题
+
+1. 
