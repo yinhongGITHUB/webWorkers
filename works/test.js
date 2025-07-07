@@ -1,7 +1,7 @@
 //  自定义worker脚本
 self.onmessage = function (event) {
 
-  console.log('event',event.data);
+  console.log('event.data',event.data);
   
   setTimeout(() => {
     // 模拟处理数据
