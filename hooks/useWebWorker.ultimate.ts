@@ -6,7 +6,6 @@
 export function useWebWorker(workerUrl: string) {
 
   let worker: Worker | null = new Worker(workerUrl, { type: "module" });
-  const result = null;
   const error = null;
   // 是否处于活动状态
   let isActive = true;
@@ -75,7 +74,6 @@ export function useWebWorker(workerUrl: string) {
 
   return {
     execute, 
-    result,
     error,
     isActive, 
     terminate, 
