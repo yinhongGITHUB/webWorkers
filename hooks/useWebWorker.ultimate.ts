@@ -4,16 +4,15 @@
  * @returns
  */
 export function useWebWorker(workerUrl: string) {
-  let worker: Worker | null = new Worker(workerUrl, { type: "module" });
 
+  let worker: Worker | null = new Worker(workerUrl, { type: "module" });
   const result = null;
   const error = null;
   // 是否处于活动状态
   let isActive = true;
   // 任务队列
   const taskQueue: Array<{ params: any; resolve: Function; reject: Function }> = [];
-
-  // 标识是否正在处理任务
+  // 是否正在处理任务  默认为false
   let isProcessing = false;
 
   // 终止 Worker
@@ -27,62 +26,58 @@ export function useWebWorker(workerUrl: string) {
 
   // 处理队列中的下一个任务
   const processNextTask = () => {
+    // 队列为空就不往下走了
     if (taskQueue.length === 0) {
-      isProcessing = false; // 如果队列为空，标记为未处理状态
+      isProcessing = false;
       return;
     }
 
-    isProcessing = true; // 标记为正在处理状态
-
-    // 从队列中取出任务
+    isProcessing = true; 
     const { params, resolve, reject } = taskQueue.shift()!;
 
     // 成功回调
     const onMessage = (event: MessageEvent) => {
-      cleanup(); // 清理监听器
-      resolve(event.data); // 解析任务结果
-      processNextTask(); // 处理下一个任务
+      cleanup();
+      resolve(event.data); 
+      processNextTask(); 
     };
 
     // 错误回调
     const onError = (err: ErrorEvent) => {
-      cleanup(); // 清理监听器
-      reject(err); // 解析错误信息
-      processNextTask(); // 处理下一个任务
+      cleanup();
+      reject(err); 
+      processNextTask(); 
     };
 
     // 清理监听器
     const cleanup = () => {
-      worker?.removeEventListener('message', onMessage); // 移除消息监听器
-      worker?.removeEventListener('error', onError); // 移除错误监听器
+      worker?.removeEventListener('message', onMessage);
+      worker?.removeEventListener('error', onError);
     };
 
-    // 添加消息监听器
     worker?.addEventListener('message', onMessage);
-
-    // 添加错误监听器
     worker?.addEventListener('error', onError);
 
-    // 向 Worker 发送任务参数
+    // 发送任务
     worker?.postMessage(params);
   };
 
   // 执行任务并返回 Promise
   const execute = (params: any) => {
     return new Promise((resolve, reject) => {
-      taskQueue.push({ params, resolve, reject }); // 将任务加入队列
+      taskQueue.push({ params, resolve, reject }); 
       if (!isProcessing) {
-        processNextTask(); // 如果没有正在处理的任务，开始处理队列
+        processNextTask(); 
       }
     });
   };
 
-  // 返回 Worker 的操作方法
+
   return {
-    execute, // 执行任务
-    result, // 任务结果
-    error, // 错误信息
-    isActive, // Worker 状态
-    terminate, // 终止 Worker
+    execute, 
+    result,
+    error,
+    isActive, 
+    terminate, 
   };
 }
