@@ -31,7 +31,7 @@ export function useWebWorker(workerUrl: string) {
       isProcessing = false;
       return;
     }
-
+``
     isProcessing = true; 
     const { params, resolve, reject } = taskQueue.shift()!;
 
