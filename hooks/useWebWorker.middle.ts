@@ -1,25 +1,12 @@
 
-// 深度判断两个对象是否相等
-export function deepEqual(obj1:any, obj2:any): boolean {
-  if (obj1 === obj2) return true;
-  if (typeof obj1 !== "object" || typeof obj2 !== "object" || obj1 == null || obj2 == null) return false;
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
-  if (keys1.length !== keys2.length) return false;
-  for (let key of keys1) {
-    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) return false;
-  }
-  return true;
-}
 /**
- * webWorker简单版
+ * webWorker中等版---------失败的版本,只为引出最终版本而存在 " 男人 "
  * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
 
 export function useWebWorker(workerUrl: any) {
   let worker: Worker | null = new Worker(workerUrl, { type: "module" });
-  
 
   let isActive = true;
   // 终止Worker
@@ -30,6 +17,40 @@ export function useWebWorker(workerUrl: any) {
     worker = null;
     isActive = false;
   };
+  let currentParams = null as any;
+  let currentReject = null as any;
+  let currentResolve = null as any;
+  // 成功回调
+  const onMessage = (event: MessageEvent) => {
+    console.log(
+      "监听器响应，任务参数:",
+      currentParams,
+      "收到数据:",
+      event.data.data
+    );
+
+    if (event.data.error) {
+      currentReject(new Error(event.data.error));
+    } else {
+      currentResolve(event.data);
+    }
+    cleanup();
+  };
+
+  // 失败回调
+  const onError = (error: ErrorEvent) => {
+    currentReject(new Error(`Worker error: ${error.message}`));
+    cleanup();
+  };
+
+  // 清理监听器
+  const cleanup = () => {
+    currentParams = null;
+    currentReject = null;
+    currentResolve = null;
+    worker?.removeEventListener("message", onMessage);
+    worker?.removeEventListener("error", onError);
+  };
 
   // 执行任务并返回 Promise
   const execute = (params: any): Promise<any> => {
@@ -38,36 +59,13 @@ export function useWebWorker(workerUrl: any) {
     }
 
     return new Promise((resolve, reject) => {
-
-      // 成功回调
-      const onMessage = (event: MessageEvent) => {
-        console.log('监听器响应，任务参数:', params, '收到数据:', event.data.data);
-        if (!deepEqual(event.data.data.test,params.test))return;
-        
-        if (event.data.error) {
-          reject(new Error(event.data.error));
-        } else {
-          resolve(event.data);
-        }
-      //  cleanup();
-      };
-
-      // 失败回调
-      const onError = (error: ErrorEvent) => {
-        reject(new Error(`Worker error: ${error.message}`));
-        // cleanup();
-      };
-
-
-      // const cleanup = () => {
-      //   worker?.removeEventListener("message", onMessage);
-      //   worker?.removeEventListener("error", onError);
-      // };
-
-      // cleanup(); 
+      // cleanup();
       worker?.addEventListener("message", onMessage);
       worker?.addEventListener("error", onError);
-      
+
+      currentParams = params;
+      currentReject = reject;
+      currentResolve = resolve;
       // 发送任务
       worker?.postMessage(params);
     });
