@@ -12,7 +12,7 @@ export function deepEqual(obj1:any, obj2:any): boolean {
   return true;
 }
 /**
- * webWorker简单版
+ * webWorker 初级版
  * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
@@ -41,21 +41,21 @@ export function useWebWorker(workerUrl: any) {
       // 成功回调
       const onMessage = (event: MessageEvent) => {
         console.log('监听器响应，任务参数:', params, '收到数据:', event.data.data);
-        if (!deepEqual(event.data.data.test,params.test))return;
-        
+        if (!deepEqual(event.data.data.test, params.test)) return;
+
         if (event.data.error) {
           reject(new Error(event.data.error));
         } else {
           resolve(event.data);
         }
-        // 这里不能清理
+        // 这里不能在没有deepEqual的情况下清除
         // cleanup();
       };
 
       // 失败回调
       const onError = (error: ErrorEvent) => {
         reject(new Error(`Worker error: ${error.message}`));
-        // 这里不能清理
+        // 这里不能在没有deepEqual的情况下清除
         // cleanup();
       };
 

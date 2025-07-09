@@ -15,7 +15,7 @@ export function deepEqual(obj1, obj2) {
     return true;
 }
 /**
- * webWorker简单版
+ * webWorker 初级版
  * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
@@ -47,13 +47,13 @@ export function useWebWorker(workerUrl) {
                 else {
                     resolve(event.data);
                 }
-                // 这里不能清理
+                // 这里不能在没有deepEqual的情况下清除
                 // cleanup();
             };
             // 失败回调
             const onError = (error) => {
                 reject(new Error(`Worker error: ${error.message}`));
-                // 这里不能清理
+                // 这里不能在没有deepEqual的情况下清除
                 // cleanup();
             };
             const cleanup = () => {

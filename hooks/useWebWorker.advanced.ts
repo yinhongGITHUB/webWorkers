@@ -1,5 +1,5 @@
 /**
- * webWorker最终版
+ * webWorker 高级版
  * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
