@@ -3,7 +3,7 @@ import { useWebWorker } from "./dist/useWebWorker.elementary.js";
 // import { useWebWorker } from "./dist/useWebWorker.advanced.js";
 
 // 具体用法
-const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
+const { execute } = useWebWorker(new URL("./works/self.js", import.meta.url));
 
 // 执行任务
 // 注意：如果worker已经被终止或不可用，execute会返回一个拒绝的Promise

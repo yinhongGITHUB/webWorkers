@@ -37,14 +37,10 @@ npm run start
 
 3. 如何使用 useWebWorker ？
 
-- 初始化
-```js
-// 导入useWebWorker后的初始化
-const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
-```
-
 - 自定义works脚本
 ```js
+// self.js
+
 self.onmessage = function (event) {
     // event.data  就是下面execute传入的 *参数对象*
     // ToDo......
@@ -52,8 +48,13 @@ self.onmessage = function (event) {
     self.postMessage(result);
 };
 ```
-- 具体执行
+- 初始化与具体执行
 ```js
+// index.js
+
+// 导入useWebWorker后的初始化
+const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
+
 // 自定义works脚本中 需要接收的 *参数对象*
  execute({ 
     ...params
