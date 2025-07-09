@@ -4,7 +4,6 @@
  * @returns
  */
 export function useWebWorker(workerUrl: string) {
-
   let worker: Worker | null = new Worker(workerUrl, { type: "module" });
 
   let isActive = true;
