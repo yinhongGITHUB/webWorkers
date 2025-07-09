@@ -3,7 +3,8 @@ self.onmessage = function (event) {
 
   console.log('event.data',event.data);
   
-  setTimeout(() => {
+  let timeID = setTimeout(() => {
+    clearTimeout(timeID);
     // 模拟处理数据
     const result = {
       data: event.data,

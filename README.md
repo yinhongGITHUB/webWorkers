@@ -1,28 +1,29 @@
-## Web Workers 是什么
+## Web Workers 及 useWebWorker 详解
+
+### 一、Web Workers 是什么
 
 Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的方法，允许你在主线程之外执行 JavaScript 代码，从而避免阻塞用户界面（如滚动、点击等交互）
 
 
-#### Web Workers 注意事项
+### 二、Web Workers 注意事项
 
  1. 没有 DOM 访问权限
  2. 全局对象是 self 而非 window
  3. 没有存储访问权限（localStorage/sessionStorage）
  4. 没有 UI 访问权限（alert()/confirm()）
  5. 没有直接的图形渲染能力（canvas/WebGL）
- 6. 定时器无法被窗口不可见时节流，需手动清理 并且全局对象为self
+ 6. 定时器无法被窗口不可见时节流，需手动清理
  7. 脚本必须是js
 
 
-#### 自动监听文件变化并实时将ts文件编译成js文件
+### 三、运行相关命令
 
-npm run tsc:watch
+| 功能描述&#xA;          | 命令&#xA;             |
+| ------------------ | ------------------- |
+| 启动项目&#xA;          | `npm run start`     |
+| 监听 TS 文件变化并编译&#xA; | `npm run tsc:watch` |
 
-#### 运行
-
-npm run start
-
-#### 常见问题
+#### 四、常见问题
 
 1. 为什么要使用 Web Worker ？
 
