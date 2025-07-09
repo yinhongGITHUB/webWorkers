@@ -1,12 +1,10 @@
 /**
  * webWorker最终版
- * @param workerUrl Worker的URL或路径 例如：new URL('./test.js', import.meta.url)
+ * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
 export function useWebWorker(workerUrl) {
     let worker = new Worker(workerUrl, { type: "module" });
-    const error = null;
-    // 是否处于活动状态
     let isActive = true;
     // 任务队列
     const taskQueue = [];
@@ -27,7 +25,6 @@ export function useWebWorker(workerUrl) {
             isProcessing = false;
             return;
         }
-        ``;
         isProcessing = true;
         const { params, resolve, reject } = taskQueue.shift();
         // 成功回调
@@ -36,7 +33,7 @@ export function useWebWorker(workerUrl) {
             resolve(event.data);
             processNextTask();
         };
-        // 错误回调
+        // 失败回调
         const onError = (err) => {
             cleanup();
             reject(err);
@@ -54,6 +51,9 @@ export function useWebWorker(workerUrl) {
     };
     // 执行任务并返回 Promise
     const execute = (params) => {
+        if (!isActive) {
+            return Promise.reject(new Error("Worker已经被终止或不可用"));
+        }
         return new Promise((resolve, reject) => {
             taskQueue.push({ params, resolve, reject });
             if (!isProcessing) {
@@ -63,7 +63,6 @@ export function useWebWorker(workerUrl) {
     };
     return {
         execute,
-        error,
         isActive,
         terminate,
     };

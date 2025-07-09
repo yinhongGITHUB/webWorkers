@@ -1,13 +1,13 @@
 /**
  * webWorker简单版
- * @param workerUrl Worker的URL或路径 例如：new URL('./test.js', import.meta.url)
+ * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
  * @returns
  */
 
 export function useWebWorker(workerUrl: any) {
   let worker: Worker | null = new Worker(workerUrl, { type: "module" });
-  let isActive = true;
 
+  let isActive = true;
   // 终止Worker
   const terminate = () => {
     if (worker) {
@@ -25,9 +25,9 @@ export function useWebWorker(workerUrl: any) {
 
     return new Promise((resolve, reject) => {
 
+      // 成功回调
       const onMessage = (event: MessageEvent) => {
          console.log('worker onMessage', event.data.data);
-         
         if (event.data.error) {
           reject(new Error(event.data.error));
         } else {
@@ -36,7 +36,7 @@ export function useWebWorker(workerUrl: any) {
        cleanup();
       };
 
-
+      // 失败回调
       const onError = (error: ErrorEvent) => {
         reject(new Error(`Worker error: ${error.message}`));
         cleanup();
