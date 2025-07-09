@@ -1,5 +1,6 @@
-import { useWebWorker } from "./dist/hooks/useWebWorker.simple.js";
-// import { useWebWorker } from "./dist/hooks/useWebWorker.ultimate.js";
+// import { useWebWorker } from "./dist/useWebWorker.simple.js";
+import { useWebWorker } from "./dist/useWebWorker.middle.js";
+// import { useWebWorker } from "./dist/useWebWorker.ultimate.js";
 
 // 具体用法
 const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
