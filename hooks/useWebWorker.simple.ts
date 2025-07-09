@@ -48,22 +48,22 @@ export function useWebWorker(workerUrl: any) {
         } else {
           resolve(event.data);
         }
-      //  cleanup();
+      // 这里不能清理
+      // cleanup();
       };
 
       // 失败回调
       const onError = (error: ErrorEvent) => {
         reject(new Error(`Worker error: ${error.message}`));
-        // cleanup();
+        cleanup();
       };
 
 
-      // const cleanup = () => {
-      //   worker?.removeEventListener("message", onMessage);
-      //   worker?.removeEventListener("error", onError);
-      // };
+      const cleanup = () => {
+        worker?.removeEventListener("message", onMessage);
+        worker?.removeEventListener("error", onError);
+      };
 
-      // cleanup(); 
       worker?.addEventListener("message", onMessage);
       worker?.addEventListener("error", onError);
       

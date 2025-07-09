@@ -47,18 +47,19 @@ export function useWebWorker(workerUrl) {
                 else {
                     resolve(event.data);
                 }
-                //  cleanup();
+                // 这里不能清理
+                // cleanup();
             };
             // 失败回调
             const onError = (error) => {
                 reject(new Error(`Worker error: ${error.message}`));
+                // 这里不能清理
                 // cleanup();
             };
-            // const cleanup = () => {
-            //   worker?.removeEventListener("message", onMessage);
-            //   worker?.removeEventListener("error", onError);
-            // };
-            // cleanup(); 
+            const cleanup = () => {
+                worker?.removeEventListener("message", onMessage);
+                worker?.removeEventListener("error", onError);
+            };
             worker?.addEventListener("message", onMessage);
             worker?.addEventListener("error", onError);
             // 发送任务

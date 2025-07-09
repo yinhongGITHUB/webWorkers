@@ -1,5 +1,5 @@
-// import { useWebWorker } from "./dist/useWebWorker.simple.js";
-import { useWebWorker } from "./dist/useWebWorker.middle.js";
+import { useWebWorker } from "./dist/useWebWorker.simple.js";
+// import { useWebWorker } from "./dist/useWebWorker.middle.js";
 // import { useWebWorker } from "./dist/useWebWorker.ultimate.js";
 
 // 具体用法
