@@ -48,14 +48,15 @@ export function useWebWorker(workerUrl: any) {
         } else {
           resolve(event.data);
         }
-      // 这里不能清理
-      // cleanup();
+        // 这里不能清理
+        // cleanup();
       };
 
       // 失败回调
       const onError = (error: ErrorEvent) => {
         reject(new Error(`Worker error: ${error.message}`));
-        cleanup();
+        // 这里不能清理
+        // cleanup();
       };
 
 
