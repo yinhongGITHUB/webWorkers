@@ -25,18 +25,18 @@ Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的
 
 #### 四、常见问题
 
-1. 为什么要使用 Web Worker ？
+##### 1. 为什么要使用 Web Worker ？
 
 - 提升性能：将耗时任务移至后台，避免主线程卡顿，提升页面响应速度。
 - 增强用户体验：确保用户界面（如滚动、点击等交互）流畅运行。
 - 任务并行化：利用多线程能力同时处理多个任务，提高计算效率。
 - 代码模块化：将复杂的逻辑封装到 Worker 中，简化主线程代码。
 
-2. useWebWorker 到底做了什么？
+##### 2. useWebWorker 到底做了什么？
 答：
 在业务侧，将较为复杂的运算逻辑、占用主线程时间较长的任务，交由 Web Worker 处理；useWebWorker以任务队列的方式，确保多次执行 execute时， 按顺序处理；
 
-3. 如何使用 useWebWorker ？
+##### 3. 如何使用 useWebWorker ？
 
 - 自定义works脚本
 ```js
@@ -62,7 +62,7 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
  })
 ```
 
-4. 简单版本的 useWebWorker 为什么特意在代码中备注不要调用cleanup清除？
+##### 4. 简单版本的 useWebWorker 为什么特意在代码中备注不要调用cleanup清除？
 
 我的本意是每次调用execute,都给worker实例添加不同的onMessage,这样在每次调用execute,都会触发所有的onMessage回调,然后通过比较**业务侧**传入参数和**脚本侧**传入参数,来判断是否是同一任务的onMessage回调,如果在每个成功的onMessage最后,清除掉自身,那么在没有deepEqual的情况下,将会打印多次首次调用execute所传入的参数(这里的多次取决于execute被调用了几次):
 ```js
@@ -73,7 +73,7 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
 ```
 这是因为Promise被提前结束了,无法打印正确的输出
 
-5. 为什么分初级版、中级版、高级版,判定标准是什么?
+##### 5. 为什么分初级版、中级版、高级版,判定标准是什么?
 
 - 初级版: 仅考虑功能实现,并且多次调用execute时,会给同一worker实例添加多个onMessage回调,占用资源不说,还有内存泄漏的风险.
 - 中级版: 解决了初级版本的多次绑定onMessage回调问题,但受限于设计,无法正确打印结果,仅仅为了引出高级版而存在.

@@ -1,5 +1,8 @@
+// 初级版
 import { useWebWorker } from "./dist/useWebWorker.elementary.js";
+// 中级版
 // import { useWebWorker } from "./dist/useWebWorker.middle.js";
+// 高级版 （建议直接使用）
 // import { useWebWorker } from "./dist/useWebWorker.advanced.js";
 
 // 具体用法
