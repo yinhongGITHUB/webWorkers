@@ -1,9 +1,9 @@
 // 初级版
-import { useWebWorker } from "./dist/useWebWorker.elementary.js";
+// import { useWebWorker } from "./dist/useWebWorker.elementary.js";
 // 中级版
 // import { useWebWorker } from "./dist/useWebWorker.middle.js";
-// 高级版 （建议直接使用）
-// import { useWebWorker } from "./dist/useWebWorker.advanced.js";
+// 高级版 （建议使用）
+import { useWebWorker } from "./dist/useWebWorker.advanced.js";
 
 // 具体用法
 const { execute } = useWebWorker(new URL("./works/self.js", import.meta.url));

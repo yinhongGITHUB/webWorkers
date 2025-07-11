@@ -8,17 +8,43 @@ export function useWebWorker(workerUrl: string) {
 
   let isActive = true;
   // 任务队列
-  const taskQueue: Array<{ params: any; resolve: Function; reject: Function }> = [];
+  const taskQueue: Array<{ params: any; resolve: Function; reject: Function }> =
+    [];
   // 是否正在处理任务  默认为false
   let isProcessing = false;
-
+  let currentResolve = null as any;
+  let currentReject = null as any;
   // 终止 Worker
   const terminate = () => {
-     if (worker) {
+    if (worker) {
       worker.terminate();
     }
+    // 清理监听器
+    cleanup();
     worker = null;
     isActive = false;
+  };
+
+  // 成功回调
+  const onMessage = (event: MessageEvent) => {
+    cleanup();
+    currentResolve && currentResolve(event.data);
+    currentResolve = null;    
+    processNextTask();
+  };
+
+  // 失败回调
+  const onError = (err: ErrorEvent) => {
+    cleanup();
+    currentReject && currentReject(err);
+    currentReject = null
+    processNextTask();
+  };
+
+  // 清理监听器
+  const cleanup = () => {
+    worker?.removeEventListener("message", onMessage);
+    worker?.removeEventListener("error", onError);
   };
 
   // 处理队列中的下一个任务
@@ -29,31 +55,13 @@ export function useWebWorker(workerUrl: string) {
       return;
     }
 
-    isProcessing = true; 
+    isProcessing = true;
     const { params, resolve, reject } = taskQueue.shift()!;
+    currentResolve = resolve;
+    currentReject = reject;
 
-    // 成功回调
-    const onMessage = (event: MessageEvent) => {
-      cleanup();
-      resolve(event.data); 
-      processNextTask(); 
-    };
-
-    // 失败回调
-    const onError = (err: ErrorEvent) => {
-      cleanup();
-      reject(err); 
-      processNextTask(); 
-    };
-
-    // 清理监听器
-    const cleanup = () => {
-      worker?.removeEventListener('message', onMessage);
-      worker?.removeEventListener('error', onError);
-    };
-
-    worker?.addEventListener('message', onMessage);
-    worker?.addEventListener('error', onError);
+    worker?.addEventListener("message", onMessage);
+    worker?.addEventListener("error", onError);
 
     // 发送任务
     worker?.postMessage(params);
@@ -65,16 +73,16 @@ export function useWebWorker(workerUrl: string) {
       return Promise.reject(new Error("Worker已经被终止或不可用"));
     }
     return new Promise((resolve, reject) => {
-      taskQueue.push({ params, resolve, reject }); 
+      taskQueue.push({ params, resolve, reject });
       if (!isProcessing) {
-        processNextTask(); 
+        processNextTask();
       }
     });
   };
 
   return {
-    execute, 
-    isActive, 
-    terminate, 
+    execute,
+    isActive,
+    terminate,
   };
 }

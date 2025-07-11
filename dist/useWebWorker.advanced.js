@@ -10,13 +10,36 @@ export function useWebWorker(workerUrl) {
     const taskQueue = [];
     // 是否正在处理任务  默认为false
     let isProcessing = false;
+    let currentResolve = null;
+    let currentReject = null;
     // 终止 Worker
     const terminate = () => {
         if (worker) {
             worker.terminate();
         }
+        // 清理监听器
+        cleanup();
         worker = null;
         isActive = false;
+    };
+    // 成功回调
+    const onMessage = (event) => {
+        cleanup();
+        currentResolve && currentResolve(event.data);
+        currentResolve = null;
+        processNextTask();
+    };
+    // 失败回调
+    const onError = (err) => {
+        cleanup();
+        currentReject && currentReject(err);
+        currentReject = null;
+        processNextTask();
+    };
+    // 清理监听器
+    const cleanup = () => {
+        worker?.removeEventListener("message", onMessage);
+        worker?.removeEventListener("error", onError);
     };
     // 处理队列中的下一个任务
     const processNextTask = () => {
@@ -27,25 +50,10 @@ export function useWebWorker(workerUrl) {
         }
         isProcessing = true;
         const { params, resolve, reject } = taskQueue.shift();
-        // 成功回调
-        const onMessage = (event) => {
-            cleanup();
-            resolve(event.data);
-            processNextTask();
-        };
-        // 失败回调
-        const onError = (err) => {
-            cleanup();
-            reject(err);
-            processNextTask();
-        };
-        // 清理监听器
-        const cleanup = () => {
-            worker?.removeEventListener('message', onMessage);
-            worker?.removeEventListener('error', onError);
-        };
-        worker?.addEventListener('message', onMessage);
-        worker?.addEventListener('error', onError);
+        currentResolve = resolve;
+        currentReject = reject;
+        worker?.addEventListener("message", onMessage);
+        worker?.addEventListener("error", onError);
         // 发送任务
         worker?.postMessage(params);
     };
