@@ -8,7 +8,7 @@ self.onmessage = function (event) {
     // 模拟处理数据
     const result = {
       data: event.data,
-      message: "Worker processed data successfully",
+      message: "Worker 处理成功",
       error: null,
     };
     // 发送处理结果回主线程
