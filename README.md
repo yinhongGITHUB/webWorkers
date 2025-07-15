@@ -3,7 +3,7 @@
 ### 一、Web Workers 是什么
 
 Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的方法，允许你在主线程之外执行 JavaScript 代码，从而避免阻塞用户界面（如滚动、点击等交互）
-
+<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/thread.png" alt="图片描述" width="300" height="200">
 
 ### 二、Web Workers 注意事项
 
@@ -65,6 +65,8 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
 ##### 4. 简单版本的 useWebWorker 为什么特意在代码中备注不要调用cleanup清除？
 
 我的本意是每次调用execute,都给worker实例添加不同的onMessage,这样在每次调用execute,都会触发所有的onMessage回调,然后通过比较**业务侧**传入参数和**脚本侧**传入参数,来判断是否是同一任务的onMessage回调,如果在每个成功的onMessage最后,清除掉自身,那么在没有deepEqual的情况下,将会打印多次首次调用execute所传入的参数(这里的多次取决于execute被调用了几次):
+<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/add-message.png" alt="图片描述" width="300" height="200">
+
 ```js
 // 例子中的错误输出为:
 // 我是一个参数1
@@ -80,3 +82,6 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
 | 初级版         | 仅考虑功能实现,并且多次调用execute时,会给同一worker实例添加多个onMessage回调,占用资源不说,还有内存泄漏的风险.     |
 | 中级版 | 解决了初级版本的多次绑定onMessage回调问题,但受限于设计,无法正确打印结果,仅仅为了引出高级版而存在. |
 | 高级版(建议使用) | 引入任务队列设计,串行编译结果,即能正确打印输出,又能避免过多的内存消耗. |
+
+##### 6. 效果演示
+<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="300" height="200">
