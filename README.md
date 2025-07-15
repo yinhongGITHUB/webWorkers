@@ -79,11 +79,11 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
 
 ##### 5. 为什么分初级版、中级版、高级版,判定标准是什么?
 
-| 功能描述 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 说明        |
+| 功能描述 | 说明        |
 | ------------------------------------ | ------------------- |
 | 初级版         | 仅考虑功能实现,并且多次调用execute时,会给同一worker实例添加多个onMessage回调,占用资源不说,还有内存泄漏的风险.     |
 | 中级版 | 解决了初级版本的多次绑定onMessage回调问题,但受限于设计,无法正确打印结果,仅仅为了引出高级版而存在. |
-| 高级版(建议使用) | 引入任务队列设计,串行编译结果,即能正确打印输出,又能避免过多的内存消耗. |
+| 高级版(建议使用) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 引入任务队列设计,串行编译结果,即能正确打印输出,又能避免过多的内存消耗. |
 
 ##### 6. 高级版效果演示
 <img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="100%">
