@@ -2,7 +2,8 @@
 
 ### 一、Web Workers 是什么
 
-Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的方法，允许你在主线程之外执行 JavaScript 代码，从而避免阻塞用户界面（如滚动、点击等交互）
+Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的方法。
+允许你在主线程之外执行 JavaScript 代码，从而避免阻塞用户界面（如滚动、点击等交互）
 
 <img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/thread.png" alt="图片描述" width="500">
 
