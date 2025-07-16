@@ -25,7 +25,10 @@ Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的
 | 启动项目          | `npm run start`     |
 | 监听 TS 文件变化并编译 | `npm run tsc:watch` |
 
-#### 四、常见问题
+### 四. 高级版效果演示
+<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="100%">
+
+### 五、常见问题
 
 ##### 1. 为什么要使用 Web Worker ？
 
@@ -85,5 +88,3 @@ const { execute } = useWebWorker(new URL("./works/test.js", import.meta.url));
 | 中级版 | 解决了初级版本的多次绑定onMessage回调问题,但受限于设计,无法正确打印结果,仅仅为了引出高级版而存在. |
 | 高级版(建议使用) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 引入任务队列设计,串行编译结果,即能正确打印输出,又能避免过多的内存消耗. |
 
-##### 6. 高级版效果演示
-<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="100%">
