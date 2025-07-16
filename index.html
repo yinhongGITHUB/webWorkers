@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <script type="module" src="./index.js"></script>
-</body>
+  </head>
+  <body>
+    <!-- <script type="module" src="./index.js"></script> -->
+
+    <!-- 直观感受Web Workers带来的体验优化demo -->
+    <button onclick="handleClick()">按钮一号</button>
+    <!-- 一个无限向右移动的红色方块 -->
+    <div
+      id="box"
+      style="
+        width: 50px;
+        height: 50px;
+        background: red;
+        position: absolute;
+        left: 0;
+        top: 0;
+      "
+    ></div>
+
+    <script>
+      let pos = 0;
+      setInterval(() => {
+        pos += 2;
+        document.getElementById("box").style.left = pos + "px";
+      }, 16);
+
+      const handleClick = () => {
+        // 方式一：引用useWebWorker
+        // const script = document.createElement("script");
+        // script.src = "./index.js";
+        // script.type = "module";
+        // document.body.appendChild(script);
+
+        // 方式二：直接在页面中执行****小红块会卡住
+        // 模拟耗时操作
+        let res = 0;
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+        for (let i = 0; i < 1e9; i++) {
+          res += i;
+        }
+      };
+    </script>
+  </body>
 </html>

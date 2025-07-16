@@ -19,20 +19,20 @@ execute({ test: "我是一个参数1" })
     console.error("Worker error1:", error);
   });
   
-execute({ test: "我是一个参数2" })
-  .then((result) => {
-  console.log("Worker result2:", result.data);
-  })
-  .catch((error) => {
-    console.error("Worker error2:", error);
-  });
+// execute({ test: "我是一个参数2" })
+//   .then((result) => {
+//   console.log("Worker result2:", result.data);
+//   })
+//   .catch((error) => {
+//     console.error("Worker error2:", error);
+//   });
 
-execute({ test: "我是一个参数3" })
-  .then((result) => {
-   console.log("Worker result3:", result.data);
-  })
-  .catch((error) => {
-    console.error("Worker error3:", error);
-  });
+// execute({ test: "我是一个参数3" })
+//   .then((result) => {
+//    console.log("Worker result3:", result.data);
+//   })
+//   .catch((error) => {
+//     console.error("Worker error3:", error);
+//   });
 
 
