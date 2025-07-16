@@ -26,7 +26,7 @@ Web Workers 为 Web 内容在后台线程中运行脚本提供了一种简单的
 | 监听 TS 文件变化并编译 | `npm run tsc:watch` |
 
 ### 四. 高级版useWebWorker效果演示
-<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="100%">
+<img src="https://github.com/yinhongGITHUB/webWorkers/blob/master/imgs/ultimate-impact.gif" alt="图片描述" width="500">
 
 ### 五、常见问题
 
