@@ -1,9 +1,9 @@
 // 初级版
-import { useWebWorker } from "./dist/useWebWorker.elementary.js";
+// import { useWebWorker } from "./dist/useWebWorker.elementary.js";
 // 中级版
 // import { useWebWorker } from "./dist/useWebWorker.middle.js";
 // 高级版 （建议使用）
-// import { useWebWorker } from "./dist/useWebWorker.advanced.js";
+import { useWebWorker } from "./dist/useWebWorker.advanced.js";
 
 // 具体用法
 const worker = useWebWorker(new URL("./works/self.js", import.meta.url));
@@ -38,7 +38,7 @@ worker
     console.error("Worker error3:", error);
   });
 // 任务索引从1开始 
-// worker.terminateTask(3); // 终止任务3
+// worker.terminateTask(1); // 终止任务1
 // 终止worker
 // worker.terminate();
 // console.log("worker", worker.isActive);

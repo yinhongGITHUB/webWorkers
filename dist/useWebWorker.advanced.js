@@ -35,13 +35,11 @@ export function useWebWorker(workerUrl) {
             console.warn(`终止任务失败，任务 ${index} 已经运行完毕，无法终止`);
         }
         else if (currentIndex === operationQueueIndex) {
-            console.warn(`终止任务失败，任务 ${index} 已经在运行队列中，无法终止`);
-            // setTimeout(() => {
-            //   terminate();
-            //   worker = new Worker(workerUrl, { type: "module" });
-            //   operationQueueIndex++;
-            //   processNextTask();
-            // });
+            console.warn(`任务 ${index} 正在运行，但依旧会被终止`);
+            terminate();
+            worker = new Worker(workerUrl, { type: "module" });
+            operationQueueIndex++;
+            processNextTask();
         }
         else if (currentIndex > operationQueueIndex) {
             terminateTaskIndexArr.push(currentIndex);
@@ -54,6 +52,7 @@ export function useWebWorker(workerUrl) {
         currentResolve && currentResolve(event.data);
         Promise.resolve().then(() => {
             currentResolve = null;
+            operationQueueIndex++;
             processNextTask();
         });
     };
@@ -85,7 +84,6 @@ export function useWebWorker(workerUrl) {
         }
         isProcessing = true;
         const { params, resolve, reject } = taskQueue[operationQueueIndex];
-        operationQueueIndex++;
         currentResolve = resolve;
         currentReject = reject;
         worker?.addEventListener("message", onMessage);

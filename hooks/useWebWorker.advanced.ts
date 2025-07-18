@@ -39,25 +39,24 @@ export function useWebWorker(workerUrl: string) {
     if (currentIndex < operationQueueIndex) {
       console.warn(`终止任务失败，任务 ${index} 已经运行完毕，无法终止`);
     } else if (currentIndex === operationQueueIndex) {
-      console.warn(`终止任务失败，任务 ${index} 已经在运行队列中，无法终止`);
-      // setTimeout(() => {
-      //   terminate();
-      //   worker = new Worker(workerUrl, { type: "module" });
-      //   operationQueueIndex++;
-      //   processNextTask();
-      // });
+      console.warn(`任务 ${index} 正在运行，但依旧会被终止`);
+      terminate();
+      worker = new Worker(workerUrl, { type: "module" });
+      operationQueueIndex++;
+      processNextTask();
     } else if (currentIndex > operationQueueIndex) {
       terminateTaskIndexArr.push(currentIndex);
       console.warn(`终止任务成功，任务 ${index} 将会被跳过`);
     }
   };
-  
+
   // 成功回调
   const onMessage = (event: MessageEvent) => {
     cleanup();
     currentResolve && currentResolve(event.data);
     Promise.resolve().then(() => {
       currentResolve = null;
+      operationQueueIndex++;
       processNextTask();
     });
   };
@@ -93,7 +92,6 @@ export function useWebWorker(workerUrl: string) {
     }
     isProcessing = true;
     const { params, resolve, reject } = taskQueue[operationQueueIndex];
-    operationQueueIndex++;
     currentResolve = resolve;
     currentReject = reject;
 
