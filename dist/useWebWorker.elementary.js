@@ -2,7 +2,10 @@
 export function deepEqual(obj1, obj2) {
     if (obj1 === obj2)
         return true;
-    if (typeof obj1 !== "object" || typeof obj2 !== "object" || obj1 == null || obj2 == null)
+    if (typeof obj1 !== "object" ||
+        typeof obj2 !== "object" ||
+        obj1 == null ||
+        obj2 == null)
         return false;
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
@@ -38,7 +41,7 @@ export function useWebWorker(workerUrl) {
         return new Promise((resolve, reject) => {
             // 成功回调
             const onMessage = (event) => {
-                console.log('监听器响应，任务参数:', params, '收到数据:', event.data.data);
+                console.log("监听器响应，任务参数:", params, "收到数据:", event.data.data);
                 if (!deepEqual(event.data.data.test, params.test))
                     return;
                 if (event.data.error) {
@@ -68,7 +71,9 @@ export function useWebWorker(workerUrl) {
     };
     return {
         execute,
-        isActive,
-        terminate: terminate,
+        terminate,
+        get isActive() {
+            return isActive;
+        },
     };
 }

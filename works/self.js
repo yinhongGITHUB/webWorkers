@@ -11,41 +11,42 @@ self.onmessage = function (event) {
       error: null,
     };
     // 模拟耗时操作
-    let res = 0;
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
-    for (let i = 0; i < 1e9; i++) {
-      res += i;
-    }
+    // let res = 0;
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
+    // for (let i = 0; i < 1e9; i++) {
+    //   res += i;
+    // }
     // 发送处理结果回主线程
     self.postMessage(result);
-  }, 1000);
+
+  }, 5000);
 };

@@ -1,4 +1,3 @@
-
 /**
  * webWorker 中级版---------失败的版本,只为引出最终版本而存在 " 男人 "
  * @param workerUrl Worker的URL或路径 例如：new URL('./works/test.js', import.meta.url)
@@ -73,7 +72,9 @@ export function useWebWorker(workerUrl: any) {
 
   return {
     execute,
-    isActive,
-    terminate: terminate,
+    terminate,
+    get isActive() {
+      return isActive;
+    },
   };
 }

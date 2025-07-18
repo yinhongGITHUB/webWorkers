@@ -26,6 +26,9 @@
     <script>
       let pos = 0;
       setInterval(() => {
+        if (pos > (window.innerWidth-54)) {
+          pos = 0;
+        }
         pos += 2;
         document.getElementById("box").style.left = pos + "px";
       }, 16);

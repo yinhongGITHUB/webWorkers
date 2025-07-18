@@ -10,6 +10,10 @@ export function useWebWorker(workerUrl: string) {
   // 任务队列
   const taskQueue: Array<{ params: any; resolve: Function; reject: Function }> =
     [];
+  // 运行队列索引
+  let operationQueueIndex = 0;
+  // 终止任务索引集合
+  let terminateTaskIndexArr = [] as number[];
   // 是否正在处理任务  默认为false
   let isProcessing = false;
   let currentResolve = null as any;
@@ -24,21 +28,42 @@ export function useWebWorker(workerUrl: string) {
     worker = null;
     isActive = false;
   };
-
+  // 终止任务
+  const terminateTask = (index: number) => {
+    const currentIndex = index - 1; // 转换为0基索引
+    if (currentIndex < operationQueueIndex) {
+      console.warn(`终止任务失败，任务 ${index} 已经运行完毕，无法终止`);
+    } else if (currentIndex === operationQueueIndex) {
+      console.warn(`终止任务失败，任务 ${index} 已经在运行队列中，无法终止`);
+      // setTimeout(() => {
+      //   terminate();
+      //   worker = new Worker(workerUrl, { type: "module" });
+      //   operationQueueIndex++;
+      //   processNextTask();
+      // });
+    } else if (currentIndex > operationQueueIndex) {
+      terminateTaskIndexArr.push(currentIndex);
+      console.warn(`终止任务成功，任务 ${index} 将会被跳过`);
+    }
+  };
   // 成功回调
-  const onMessage = (event: MessageEvent) => {
+  const onMessage = (event: MessageEvent) => {    
     cleanup();
     currentResolve && currentResolve(event.data);
-    currentResolve = null;    
-    processNextTask();
+    Promise.resolve().then(() => {
+      currentResolve = null;
+      processNextTask();
+    });
   };
 
   // 失败回调
   const onError = (err: ErrorEvent) => {
     cleanup();
     currentReject && currentReject(err);
-    currentReject = null
-    processNextTask();
+    currentReject = null;
+    Promise.resolve().then(() => {
+      processNextTask();
+    });
   };
 
   // 清理监听器
@@ -49,14 +74,20 @@ export function useWebWorker(workerUrl: string) {
 
   // 处理队列中的下一个任务
   const processNextTask = () => {
-    // 队列为空就不往下走了
-    if (taskQueue.length === 0) {
-      isProcessing = false;
-      return;
+    // 如果有终止任务索引，跳过这些任务
+    while (terminateTaskIndexArr.includes(operationQueueIndex)) {
+      operationQueueIndex++;
     }
 
+    // 执行当前任务不存在就不往下走了
+    if (!taskQueue[operationQueueIndex]) {
+      isProcessing = false;
+      operationQueueIndex = 0;
+      return;
+    }
     isProcessing = true;
-    const { params, resolve, reject } = taskQueue.shift()!;
+    const { params, resolve, reject } = taskQueue[operationQueueIndex];
+    operationQueueIndex++;
     currentResolve = resolve;
     currentReject = reject;
 
@@ -82,7 +113,10 @@ export function useWebWorker(workerUrl: string) {
 
   return {
     execute,
-    isActive,
     terminate,
+    terminateTask,
+    get isActive() {
+      return isActive;
+    },
   };
 }

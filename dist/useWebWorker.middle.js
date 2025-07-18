@@ -59,7 +59,9 @@ export function useWebWorker(workerUrl) {
     };
     return {
         execute,
-        isActive,
-        terminate: terminate,
+        terminate,
+        get isActive() {
+            return isActive;
+        },
     };
 }
