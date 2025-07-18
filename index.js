@@ -38,7 +38,7 @@ worker
     console.error("Worker error3:", error);
   });
 // 任务索引从1开始 
-// worker.terminateTask(2); // 终止任务2
+// worker.terminateTask(3); // 终止任务3
 // 终止worker
 // worker.terminate();
 // console.log("worker", worker.isActive);
