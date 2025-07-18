@@ -18,6 +18,7 @@ export function useWebWorker(workerUrl: string) {
   let isProcessing = false;
   let currentResolve = null as any;
   let currentReject = null as any;
+
   // 终止 Worker
   const terminate = () => {
     if (worker) {
@@ -28,9 +29,13 @@ export function useWebWorker(workerUrl: string) {
     worker = null;
     isActive = false;
   };
+
   // 终止任务
   const terminateTask = (index: number) => {
     const currentIndex = index - 1; // 转换为0基索引
+    if (currentIndex < 0)
+      return console.warn(`终止任务失败，任务 ${index} 索引无效`);
+
     if (currentIndex < operationQueueIndex) {
       console.warn(`终止任务失败，任务 ${index} 已经运行完毕，无法终止`);
     } else if (currentIndex === operationQueueIndex) {
@@ -46,8 +51,9 @@ export function useWebWorker(workerUrl: string) {
       console.warn(`终止任务成功，任务 ${index} 将会被跳过`);
     }
   };
+  
   // 成功回调
-  const onMessage = (event: MessageEvent) => {    
+  const onMessage = (event: MessageEvent) => {
     cleanup();
     currentResolve && currentResolve(event.data);
     Promise.resolve().then(() => {

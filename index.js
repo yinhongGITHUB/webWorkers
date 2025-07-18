@@ -20,23 +20,23 @@ worker
     console.error("Worker error1:", error);
   });
 // console.log("worker", worker.isActive);
-worker
-  .execute({ test: "我是一个参数2" })
-  .then((result) => {
-    console.log("Worker result2:", result.data);
-  })
-  .catch((error) => {
-    console.error("Worker error2:", error);
-  });
+// worker
+//   .execute({ test: "我是一个参数2" })
+//   .then((result) => {
+//     console.log("Worker result2:", result.data);
+//   })
+//   .catch((error) => {
+//     console.error("Worker error2:", error);
+//   });
 
-worker
-  .execute({ test: "我是一个参数3" })
-  .then((result) => {
-    console.log("Worker result3:", result.data);
-  })
-  .catch((error) => {
-    console.error("Worker error3:", error);
-  });
+// worker
+//   .execute({ test: "我是一个参数3" })
+//   .then((result) => {
+//     console.log("Worker result3:", result.data);
+//   })
+//   .catch((error) => {
+//     console.error("Worker error3:", error);
+//   });
 // 任务值从1开始 
 // worker.terminateTask(2); // 终止任务2
 // 终止worker
