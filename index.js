@@ -37,7 +37,7 @@ worker
   .catch((error) => {
     console.error("Worker error3:", error);
   });
-// 任务值从1开始 
+// 任务索引从1开始 
 // worker.terminateTask(2); // 终止任务2
 // 终止worker
 // worker.terminate();
