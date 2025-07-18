@@ -29,7 +29,7 @@ export function useWebWorker(workerUrl) {
     // 终止任务
     const terminateTask = (index) => {
         const currentIndex = index - 1; // 转换为0基索引
-        if (currentIndex < 0)
+        if (currentIndex < 0 || currentIndex >= taskQueue.length)
             return console.warn(`终止任务失败，任务 ${index} 索引无效`);
         if (currentIndex < operationQueueIndex) {
             console.warn(`终止任务失败，任务 ${index} 已经运行完毕，无法终止`);
