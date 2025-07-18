@@ -41,7 +41,7 @@ export function useWebWorker(workerUrl) {
         return new Promise((resolve, reject) => {
             // 成功回调
             const onMessage = (event) => {
-                console.log("监听器响应，任务参数:", params, "收到数据:", event.data.data);
+                console.log("onMessage，任务参数:", params, "收到self返回的数据:", event.data.data);
                 if (!deepEqual(event.data.data.test, params.test))
                     return;
                 if (event.data.error) {

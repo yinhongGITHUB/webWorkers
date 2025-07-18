@@ -1,6 +1,6 @@
 //  自定义worker脚本
 self.onmessage = function (event) {
-  console.log("event.data", event.data);
+  console.log("self.js", event.data);
 
   let timeID = setTimeout(() => {
     clearTimeout(timeID);
