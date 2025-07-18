@@ -6,12 +6,12 @@
     <title>Document</title>
   </head>
   <body>
-    <!-- <script type="module" src="./index.js"></script> -->
+    <script type="module" src="./index.js"></script>
 
     <!-- 直观感受Web Workers带来的体验优化demo -->
-    <button onclick="handleClick()">按钮一号</button>
+    <!-- <button onclick="handleClick()">按钮一号</button> -->
     <!-- 一个无限向右移动的红色方块 -->
-    <div
+    <!-- <div
       id="box"
       style="
         width: 50px;
@@ -21,17 +21,17 @@
         left: 0;
         top: 0;
       "
-    ></div>
+    ></div> -->
 
     <script>
-      let pos = 0;
-      setInterval(() => {
-        if (pos > (window.innerWidth-54)) {
-          pos = 0;
-        }
-        pos += 2;
-        document.getElementById("box").style.left = pos + "px";
-      }, 16);
+      // let pos = 0;
+      // setInterval(() => {
+      //   if (pos > (window.innerWidth-54)) {
+      //     pos = 0;
+      //   }
+      //   pos += 2;
+      //   document.getElementById("box").style.left = pos + "px";
+      // }, 16);
 
       const handleClick = () => {
         // 方式一：引用useWebWorker
@@ -42,40 +42,40 @@
 
         // 方式二：直接在页面中执行****小红块会卡住
         // 模拟耗时操作
-        let res = 0;
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
-        for (let i = 0; i < 1e9; i++) {
-          res += i;
-        }
+        // let res = 0;
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
+        // for (let i = 0; i < 1e9; i++) {
+        //   res += i;
+        // }
       };
     </script>
   </body>

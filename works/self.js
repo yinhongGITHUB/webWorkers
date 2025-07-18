@@ -48,5 +48,5 @@ self.onmessage = function (event) {
     // 发送处理结果回主线程
     self.postMessage(result);
 
-  }, 5000);
+  }, 1000);
 };
