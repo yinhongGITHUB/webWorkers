@@ -19,7 +19,7 @@ export function useWebWorker(workerUrl) {
     let currentResolve = null;
     // 成功回调
     const onMessage = (event) => {
-        console.log("监听器响应，任务参数:", currentParams, "收到数据:", event.data.data);
+        console.log("onMessage，任务参数:", currentParams, "收到self返回的数据:", event.data.data);
         if (event.data.error) {
             currentReject(new Error(event.data.error));
         }

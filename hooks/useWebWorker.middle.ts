@@ -22,9 +22,9 @@ export function useWebWorker(workerUrl: any) {
   // 成功回调
   const onMessage = (event: MessageEvent) => {
     console.log(
-      "监听器响应，任务参数:",
+      "onMessage，任务参数:",
       currentParams,
-      "收到数据:",
+      "收到self返回的数据:",
       event.data.data
     );
 
